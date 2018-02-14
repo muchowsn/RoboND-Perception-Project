@@ -33,6 +33,8 @@
 
 You're reading it!
 
+[please see perception-exercise for code to exercise 1,2,3 and commented code](https://github.com/muchowsn/RoboND-Perception-Exercises)
+
 ### Creating the perception pipeline
 #### 1. Pipeline for filtering and RANSAC plane fitting implemented.
 * Implemented **Statistical Outlier Filtering** for removing outliers using _number of neighboring points_ equal to `10` and  _standard deviation multiplier threshold_ equal to `0.001`.
