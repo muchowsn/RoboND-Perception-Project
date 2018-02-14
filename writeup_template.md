@@ -2,13 +2,6 @@
 ### Writeup Template: You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
 
 ---
-[confusion_matrix]: ./img/figure_2.png
-[cluster]: ./img/cluster.png
-[world_1]: ./img/world1.png
-[world_2]: ./img/world2.png
-[world_3]: ./img/world3.png
-
-
 
 # Required Steps for a Passing Submission:
 1. Extract features and train an SVM model on new objects (see `pick_list_*.yaml` in `/pr2_robot/config/` for the list of models you'll be trying to identify). 
@@ -50,14 +43,14 @@ You're reading it!
 #### 2. Pipeline including clustering for segmentation implemented.
 * Implemented **Euclidean Clustering** using _cluster tolerance_ equal to `0.05`, _minimum cluster size_ equal to `50` and _maximum cluster size_ equal to `20000`.
 
-![Clustering][cluster]
+![Clustering](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/imgs/cluster.png)
 
 #### 3. Features extracted and SVM trained. Object recognition implemented.
 * Extracted features using `capture_features.py`. I used HSV for compute color histograms. The number of spawns of each object is 50.
 * Trained classifier using SVM with _rbf_ kernel. Resulted accuracy is `0.97`
 
-![Normalized confusion matrix][confusion_matrix]
-
+![confusion matrix](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/imgs/figure_1.png)
+![Normalized confusion matrix](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/imgs/figure_2.png)
 ### Pick and Place Setup
 
 #### For all three tabletop setups (`test*.world`), performed object recognition. Then read in respective pick list (`pick_list_*.yaml`). Next constructed the messages that would comprise a valid `PickPlace` request output them to `.yaml` format.
@@ -65,18 +58,18 @@ You're reading it!
 ##### World 1
 Correctly identified 100% of objects (**3/3**). Saved PickPlace requests in the `pr2_robot/scripts/output_1.yaml`.
 
-![World 1][world_1]
+![World1](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/imgs/world1.png)
 
 ##### World 2
 Correctly identified 80% of objects (**4/5**). glue came up as biscuits. Saved PickPlace requests in the `pr2_robot/scripts/output_2.yaml`.
 
-![World 2][world_2]
+![World2](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/imgs/world2.png)
 
 ##### World 3
 Correctly identified 87.5% / 100% of objects(**7/8**) / (**8/8**). glue sometimes came up as biscuits.  Saved PickPlace requests in the `pr2_robot/scripts/output_3.yaml`.
 
 
-![World 3][world_3]
+![World3](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/imgs/world3.png)
 
 
 ### The Code
