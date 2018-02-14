@@ -2,6 +2,12 @@
 ### Writeup Template: You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
 
 ---
+[confusion_matrix]: ./img/figure_2.png
+[cluster]: ./img/cluster.png
+[world_1]: ./img/world1.png
+[world_2]: ./img/world2.png
+[world_3]: ./img/world3.png
+
 
 
 # Required Steps for a Passing Submission:
@@ -34,58 +40,48 @@
 
 You're reading it!
 
-### Exercise 1, 2 and 3 pipeline implemented
-#### 1. Complete Exercise 1 steps. Pipeline for filtering and RANSAC plane fitting implemented.
-The code of my work on Exercise 1 can be found [here](https://github.com/muchowsn/RoboND-Perception-Exercises/tree/master/Exercise-1)
-The comments in the code provide an explanation of what I was doing
+### Creating the perception pipeline
+#### 1. Pipeline for filtering and RANSAC plane fitting implemented.
+* Implemented **Statistical Outlier Filtering** for removing outliers using _number of neighboring points_ equal to `10` and  _standard deviation multiplier threshold_ equal to `0.001`.
+* Implemented **Voxel Grid Downsampling** using _leaf size_ `0.01`.
+* Implemented **PassThrough Filter** for extracting working space along the axes _Z_ and _X_.
+* Implemented **RANSAC Plane Segmentation** for extracting target objects from point cloud.
 
-#### 2. Complete Exercise 2 steps: Pipeline including clustering for segmentation implemented.  
-The code of my work on Exercise 2 can be found [here](https://github.com/muchowsn/RoboND-Perception-Exercises/tree/master/Exercise-2)
-The comments in the code provide an explanation of what I was doing
-I outsourced the functions used in `template.py` into the python file `segmentation.py`. This proved to be useful, as we were using the same functionality in all following exercises. So I just had to enter the function calls in my main code and not copy all of the functionality over and over again.
+#### 2. Pipeline including clustering for segmentation implemented.
+* Implemented **Euclidean Clustering** using _cluster tolerance_ equal to `0.05`, _minimum cluster size_ equal to `50` and _maximum cluster size_ equal to `20000`.
 
-#### 2. Complete Exercise 3 Steps.  Features extracted and SVM trained.  Object recognition implemented.
-The code of my work on Exercise 3 can be found [here](https://github.com/muchowsn/RoboND-Perception-Exercises/tree/master/Exercise-3)
-The comments in the code provide an explanation of what I was doing
-I outsourced the functions used in `object_recognition.py` into the python file `segmentation.py`
+![Clustering][cluster]
+
+#### 3. Features extracted and SVM trained. Object recognition implemented.
+* Extracted features using `capture_features.py`. I used HSV for compute color histograms. The number of spawns of each object is 50.
+* Trained classifier using SVM with _rbf_ kernel. Resulted accuracy is `0.97`
+
+![Normalized confusion matrix][confusion_matrix]
 
 ### Pick and Place Setup
 
-#### 1. For all three tabletop setups (`test*.world`), perform object recognition, then read in respective pick list (`pick_list_*.yaml`). Next construct the messages that would comprise a valid `PickPlace` request output them to `.yaml` format.
+#### For all three tabletop setups (`test*.world`), performed object recognition. Then read in respective pick list (`pick_list_*.yaml`). Next constructed the messages that would comprise a valid `PickPlace` request output them to `.yaml` format.
 
-I experimented with various training cycles for my SVM. I noticed that it was quite hard to get the accuracy better after reaching ~0.90 in the normalized confusion matrix. The set I was using in the end for the project took 100 cycles and looks like this:
-![Training set figure 1 with 100 runs](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/writeup_images/figure_1.png)
-![Training set figure 2 with 100 runs](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/writeup_images/figure_2.png)
+##### World 1
+Correctly identified 100% of objects (**3/3**). Saved PickPlace requests in the `pr2_robot/scripts/output_1.yaml`.
 
-#### World 1
+![World 1][world_1]
 
-World 1 YAML File: [output\_1.yaml](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/pr2\_robot/scripts/output\_1.yaml)
-Object detection rate: 3/3
-All nice and shiny in world 1!
+##### World 2
+Correctly identified 80% of objects (**4/5**). glue came up as biscuits. Saved PickPlace requests in the `pr2_robot/scripts/output_2.yaml`.
 
-![World 1 Objects with labels](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/writeup_images/world1.png)
+![World 2][world_2]
 
-#### World 2
-
-World 2 YAML File: [output\_2.yaml](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/pr2\_robot/scripts/output\_2.yaml)
-Object detection rate: 5/5
+##### World 3
+Correctly identified 87.5% / 100% of objects(**7/8**) / (**8/8**). glue sometimes came up as biscuits.  Saved PickPlace requests in the `pr2_robot/scripts/output_3.yaml`.
 
 
-![World 2 Objects with labels](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/writeup_images/world2.png)
-
-#### World 3
-
-World 3 YAML File: [output\_3.yaml](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/pr2\_robot/scripts/output\_3.yaml)
-Object detection rate: 8/8
-the noise would have a few of the items changeing but would more or less idetify all 8.
-
-![World 3 Objects with labels](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/writeup_images/world3.png)
+![World 3][world_3]
 
 
 ### The Code
 
-The code of my work on the project can be found [here](https://github.com/yulivee/RoboND-Perception-Project/blob/master/pr2_robot/scripts/project_template.py)
-I outsourced the functions used in `project_template.py` in the python file `perception_functions.py`: [perception functions](https://github.com/yulivee/RoboND-Perception-Project/blob/master/pr2_robot/scripts/perception_functions.py)
+The code of my work on the project can be found [here](https://github.com/muchowsn/RoboND-Perception-Project/blob/master/pr2_robot/scripts/project_template.py)
 
 The comments in the code follow along what I was doing as per usual. In short:
 
@@ -131,9 +127,7 @@ This was used for step 9 of the perception pipeline. In step 10, a Support Vecto
 8. Support Vector Machine
 This was used for step 10 of the perception pipeline. The SVM is a machine learning algorithm that devides the point cloud into discrete classes by making use of a trainingset. Each item in a trainingset is characterized by a feature vector and a label. The training takes place before the execution of the project and during execution of the project, the trainingset is used to determine which feature a given point cloud matches.
 
-#### Improvements
 
-For reasons yet unknown to me, the project keeps mixing up the glue and soap2. I would experiment a bit further with various training set sizes to see if this issue gets better, but because of the slow VM speed I refrained from that. I would also be worth checking the feature association step and checking if the histograms look to similar.
 
 
 
